@@ -6,11 +6,12 @@ const noteSchema = new Schema(
         title: {
             type: String,
             required: true,
-        trim: true,
+            trim: true,
         },
         content: {
             type: String,
-            trim:true,
+            trim: true,
+            default: '',
         },
         tag: {
             type: String,
@@ -20,7 +21,6 @@ const noteSchema = new Schema(
     },
      {
     timestamps: true,
-    versionKey: false,
   },  
 );
 

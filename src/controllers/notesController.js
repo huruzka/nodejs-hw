@@ -2,24 +2,28 @@ import createHttpError from 'http-errors';
 import { Note } from '../models/note.js';
 
 // отримати всі нотатки
-export const getNotes = async (req, res) => {
+export const getAllNotes = async (req, res) => {
     const notes = await Note.find();
     res.status(200).json(notes);
 };
 
 // отримати одну нотатку за id
-export const getNoteById = async (req, res) => {
-    const { noteId } = req.params;
-    const note = await Note.findById(noteId);
-    if (!note) {
-        return res.status(404).json({ message: 'Note not found' });
+export const getNoteById = async (req, res, next) => {
+    try {
+        const { noteId } = req.params;
+        const note = await Note.findById(noteId);
+        if (!note) {
+            return next(createHttpError(404, 'Note not found'));
+        }
+        res.status(200).json(note);
+    } catch (error) {
+        next(error);
     }
-    res.status(200).json(note);
 };
 
 // зчитування даних з req.body
 export const createNote = async (req, res) => {
-        const note = await Note.create(req.bosy);
+        const note = await Note.create(req.body);
         res.status(201).json(note);
     };
 
@@ -42,7 +46,7 @@ export const updateNote = async (req, res, next) => {
 
     const note = await Note.findOneAndUpdate(
         { _id: noteId },
-        req.bode,
+        req.body,
         { new: true },
     );
     if (!note) {

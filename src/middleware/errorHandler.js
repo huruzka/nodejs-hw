@@ -9,11 +9,11 @@ export const errorHandler = (err, req, res, next) => {
         });
     }
 
-    const isProd = process.env.NODE_ENV === "producttion";
+    const isProd = process.env.NODE_ENV === "production";
     // Усі інші помилки — як внутрішні
     res.status(500).json({
-        massege: isProd
-            ? "Something want wrong. Try again later."
+        message: isProd
+            ? "Something went wrong. Try again later."
             : err.message,
     });
 };
