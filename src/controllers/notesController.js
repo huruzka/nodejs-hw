@@ -3,8 +3,26 @@ import { Note } from '../models/note.js';
 
 // отримати всі нотатки
 export const getAllNotes = async (req, res) => {
-    const notes = await Note.find();
-    res.status(200).json(notes);
+    const { page = 1, perPage = 15 } = req.query;
+    const skip = (page - 1) * perPage;
+
+    // Запити формуємо тут
+    const notesQuery = Note.find();
+
+    const [totalNotes, notes] = await Promise.all([
+        Note.countDocuments(),                  // рахуємо кількість документів
+        notesQuery.skip(skip).limit(perPage),   // пагінація
+    ]);
+
+    const totalPages = Math.ceil(totalNotes / perPage);
+
+    res.status(200).json({
+        page,
+        perPage,
+        totalNotes,
+        totalPages,
+        notes,
+    });
 };
 
 // отримати одну нотатку за id
