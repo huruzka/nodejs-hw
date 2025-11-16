@@ -1,5 +1,5 @@
 import { Joi, Segments } from 'celebrate';
-import { TAGS } from '../constants/tags';
+import { TAGS } from '../constants/tags.js';
 import { isValidObjectId } from 'mongoose';
 
 export const getAllNotesSchema = {
@@ -24,18 +24,30 @@ export const noteIdSchema = {
 
 export const createNoteSchema = {
     [Segments.BODY]: Joi.object({
-        title: Joi.string().min(1).required(),
+        title: Joi.string().min(1).required().messages({
+            "string.base": "Title must be a string",
+            "string.min": "Title should have at least {#limit} characters",
+            "any.required": "Title is required",
+        }),
         content: Joi.string().allow(''),
-        tag: Joi.string().valid(...TAGS)
+        tag: Joi.string().valid(...TAGS).messages({
+        "any.only": "Tag must be one of tags",
+    }),
     }),
 };
 
 export const updateNoteSchema = {
     [Segments.PARAMS]: Joi.object({
-        noteId: Joi.string().custom(objectIdValidator).required(),
+        noteId: Joi.string().custom(objectIdValidator).required().messages({
+            "string.base": "Id must be a string",
+            "string.required": "Id is required",
+        }),
     }),
     [Segments.BODY]: Joi.object({
-        title: Joi.string().min(1),
+        title: Joi.string().min(1).messages({
+            "string.base": "Title must be a string",
+            "string.min": "Title should have at least {#limit} characters",
+        }),
         content: Joi.string().allow(''),
         tag: Joi.string().valid(...TAGS)
     }),
