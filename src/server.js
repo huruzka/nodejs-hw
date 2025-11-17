@@ -7,6 +7,7 @@ import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
+import { errors } from 'celebrate';
 
 import notesRoutes from './routes/notesRoutes.js';
 
@@ -23,6 +24,9 @@ app.use(notesRoutes);
 
 // 404 — якщо маршрут не знайдено
 app.use(notFoundHandler);
+
+// errors з celebrate
+app.use(errors);
 
 // Middleware для обробки помилок
 app.use(errorHandler);

@@ -26,7 +26,7 @@ export const createNoteSchema = {
     [Segments.BODY]: Joi.object({
         title: Joi.string().min(1).required().messages({
             "string.base": "Title must be a string",
-            "string.min": "Title should have at least {#limit} characters",
+            "string.min": "Title should have at least {#} characters",
             "any.required": "Title is required",
         }),
         content: Joi.string().allow(''),
@@ -50,5 +50,5 @@ export const updateNoteSchema = {
         }),
         content: Joi.string().allow(''),
         tag: Joi.string().valid(...TAGS)
-    }),
+    }).min(1)
 };
