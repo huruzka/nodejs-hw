@@ -9,7 +9,9 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errors } from 'celebrate';
 
+import authRoutes from './routes/authRoutes.js';
 import notesRoutes from './routes/notesRoutes.js';
+
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -20,6 +22,7 @@ app.use(express.json()); // 2. Парсинг JSON-тіла
 app.use(cors());         // 3. Дозвіл для запитів з інших доменів
 
 // GET
+app.use(authRoutes);
 app.use(notesRoutes);
 
 // 404 — якщо маршрут не знайдено
@@ -30,6 +33,7 @@ app.use(errors);
 
 // Middleware для обробки помилок
 app.use(errorHandler);
+
 
 await connectMongoDB();
 
