@@ -33,7 +33,7 @@ export const setSessionCookies = (res, session) => {
     res.cookie('sessionId', session._id, {
         httpOnly: true,
         secure: true,
-        sameSite: true,
+        sameSite: 'none',
         maxAge: ONE_DAY,
     });
 };
