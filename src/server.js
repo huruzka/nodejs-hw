@@ -12,6 +12,8 @@ import { errors } from 'celebrate';
 
 import authRoutes from './routes/authRoutes.js';
 import notesRoutes from './routes/notesRoutes.js';
+import userRouters from './routes/userRoutes.js';
+ 
 
 
 const app = express();
@@ -26,7 +28,7 @@ app.use(cookieParser()); // 4.Налаштовуємо парсер кук
 // GET
 app.use(authRoutes);
 app.use(notesRoutes);
-
+app.use(userRouters);
 // 404 — якщо маршрут не знайдено
 app.use(notFoundHandler);
 
