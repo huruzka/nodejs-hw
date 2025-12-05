@@ -12,7 +12,7 @@ import { errors } from 'celebrate';
 
 import authRoutes from './routes/authRoutes.js';
 import notesRoutes from './routes/notesRoutes.js';
-import userRouters from './routes/userRoutes.js';
+import userRoutes from './routes/userRoutes.js';
  
 
 
@@ -28,7 +28,7 @@ app.use(cookieParser()); // 4.Налаштовуємо парсер кук
 // GET
 app.use(authRoutes);
 app.use(notesRoutes);
-app.use(userRouters);
+app.use(userRoutes);
 // 404 — якщо маршрут не знайдено
 app.use(notFoundHandler);
 
